@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>签售数据汇总</title>
+  <style>
+    body {
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      background-color: #ffeef8;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+    h1, h2, h3 {
+      color: #ff66b2;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .group-list {
+      text-align: center;
+    }
+    .group {
+      font-size: 1.5rem;
+      background-color: #ffccf2;
+      padding: 15px;
+      margin: 10px;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: 0.2s;
+    }
+    .group:hover {
+      background-color: #ff66b2;
+      color: white;
+      transform: scale(1.05);
+    }
+    .content, .comeback, .platform-list {
+      display: none;
+      margin-top: 20px;
+    }
+    .comeback-title {
+      background-color: #ffb3d9;
+      padding: 10px;
+      border-radius: 10px;
+      margin: 10px auto;
+      width: fit-content;
+      cursor: pointer;
+    }
+    .platform {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 15px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    #login-page {
+      text-align: center;
+      margin-top: 100px;
+    }
+    #login-page input, .search-bar input {
+      padding: 10px;
+      font-size: 1rem;
+      width: 80%;
+      max-width: 300px;
+      margin: 8px 0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    #login-page button, .search-bar button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #ff66b2;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #login-page button:hover, .search-bar button:hover {
+      background-color: #ff3388;
+    }
+    .search-bar {
+      text-align: center;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="login-page">
+    <h2>🔐 登录</h2>
+    <input type="text" id="username" placeholder="用户名"><br>
+    <input type="password" id="password" placeholder="密码"><br>
+    <button onclick="login()">登录</button>
+    <p id="login-error" style="color: red; margin-top: 10px;"></p>
+  </div>
+
+  <div id="main-content" style="display: none;">
+    <h1>💖 签售中签数据汇总 💖</h1>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="输入团名如UDTT">
+      <button onclick="searchGroup()">跳转</button>
+    </div>
+
+    <div class="group-list">
+      <div class="group" onclick="showGroupContent('udtt')">🎤 UDTT</div>
+      <div class="group" onclick="showGroupContent('youngposse')">🌟 Young Posse</div>
+      <div class="group" onclick="showGroupContent('blacklist')">🚫 签售避雷</div>
+    </div>
+
+    <div class="content" id="udtt">
+      <h2>🎤 UDTT</h2>
+      <div class="comeback-title" onclick="toggleComeback('udtt-comeback1')">《school rush》</div>
+      <div class="platform-list" id="udtt-comeback1">
+        <div class="platform">
+          <p><strong>平台：</strong>Soundwave</p>
+          <p><strong>中签本数：</strong>8</p>
+          <p><strong>备注：</strong>限制B版</p>
+        </div>
+        <div class="platform">
+          <p><strong>平台：</strong>Withdrama</p>
+          <p><strong>中签本数：</strong>12</p>
+          <p><strong>备注：</strong>不限版本</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="content" id="youngposse">
+      <h2>🌟 Young Posse</h2>
+      <div class="comeback-title" onclick="toggleComeback('youngposse-comeback1')">《XXL》回归</div>
+      <div class="platform-list" id="youngposse-comeback1">
+        <div class="platform">
+          <p><strong>平台：</strong>Makestar</p>
+          <p><strong>中签本数：</strong>5</p>
+          <p><strong>备注：</strong>限量集</p>
+        </div>
+        <div class="platform">
+          <p><strong>平台：</strong>AppleMusic</p>
+          <p><strong>中签本数：</strong>9</p>
+          <p><strong>备注：</strong>需上传收据</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="content" id="blacklist">
+      <h2>🚫 签售拉黑</h2>
+      <div class="platform">
+        <p><strong>团：</strong>loveone</p>
+        <p><strong>问题：</strong>两车都中不了</p>
+      </div>
+      <div class="platform">
+        <p><strong>团：</strong>geeniu</p>
+        <p><strong>问题：</strong>有人13本掉过</p>
+      </div>
+    </div>
+
+    <footer style="text-align: center; padding: 20px; font-size: 1.2rem;">
+      💖愿签售好运降临！ 💖
+    </footer>
+  </div>
+
+  <script>
+    function login() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+      const error = document.getElementById("login-error");
+
+      if (user === "lixmin" && pass === "qp2517898") {
+        document.getElementById("login-page").style.display = "none";
+        document.getElementById("main-content").style.display = "block";
+      } else {
+        error.textContent = "用户名或密码错误噢亲～再试试吧～";
+      }
+    }
+
+    function showGroupContent(group) {
+      document.querySelectorAll('.content').forEach(c => c.style.display = 'none');
+      document.getElementById(group).style.display = 'block';
+    }
+
+    function toggleComeback(id) {
+      const elem = document.getElementById(id);
+      elem.style.display = elem.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function searchGroup() {
+      const input = document.getElementById("searchInput").value.toLowerCase().trim();
+      if (input.includes("udtt")) {
+        showGroupContent("udtt");
+      } else if (input.includes("young") || input.includes("posse")) {
+        showGroupContent("youngposse");
+      } else if (input.includes("拉黑") || input.includes("blacklist")) {
+        showGroupContent("blacklist");
+      } else {
+        alert("未找到对应团名噢宝贝～试试 UDTT / Young Posse / 签售拉黑 啊～");
+      }
+    }
+  </script>
+</body>
+</html>
